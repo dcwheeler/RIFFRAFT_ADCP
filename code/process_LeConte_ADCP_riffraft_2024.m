@@ -97,7 +97,7 @@ for ifi=1:length(enxfiles)
     disp('----------')
     enxfile=fullfile(enxfiles(ifi).folder,enxfiles(ifi).name);
     if contains(enxfile,'_150_')
-        enxofile=fullfile(topdir,'\processed\RiffRaft',deployment,'ADCP',[enxfiles(ifi).name(1:end-4) '_proc']);
+        enxofile=fullfile(topdir,'processed/RiffRaft',deployment,'ADCP',[enxfiles(ifi).name(1:end-4) '_proc']);
         disp(enxfile)
         disp(enxofile)
       %  process_ADCP_data_LECONTE_150(enxfile,enxofile)
@@ -105,7 +105,7 @@ for ifi=1:length(enxfiles)
     end
 
     if contains(enxfile,'_600_')
-        enxofile=fullfile(topdir,'\processed\RiffRaft',deployment,'ADCP',[enxfiles(ifi).name(1:end-4) '_proc']);
+        enxofile=fullfile(topdir,'processed/RiffRaft',deployment,'ADCP',[enxfiles(ifi).name(1:end-4) '_proc']);
         disp(enxfile)
         disp(enxofile)
     %   process_ADCP_data_LECONTE_600(enxfile,enxofile)
@@ -131,8 +131,9 @@ for ifi=1:length(enxfiles)
 
     if contains(enxfile,'_150_')
         figure(1)
-        map=rb_cmp;
-        colormap(map)
+        %map=rb_cmp;
+        colormap("parula")
+        %colormap(map)
         subplot(3,1,1)
         pcolor(time,-bins,u);
         shading flat
@@ -197,7 +198,8 @@ for ifi=1:length(enxfiles)
 
         figure(1)
 
-        map=rb_cmp;
+        %map=rb_cmp;
+        map = 'parula';
         colormap(map)
         subplot(3,1,1)
         pcolor(time,-bins,u);

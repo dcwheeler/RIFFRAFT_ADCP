@@ -1,7 +1,9 @@
     
 %direc='C:\work\GEODATA\gshhg-shp-2.3.7\GSHHS_shp\'
 
-direc='C:\work\LeConte\map\Alaska_Coast_63360_ln\';
+direc = '/Users/dwheel03/Desktop/GitHub/Tufts_Code/RIFFRAFT_ADCP/map/Alaska_Coast_63360_ln/';
+%direc='C:\work\LeConte\map\Alaska_Coast_63360_ln\';
+
 bbox=[  [-132.7 -132.3];[56.7 56.9]];
 % [lat,lon] = projinv(proj,x,y)
 % bbox=[  [31 47];[-82 -60]]

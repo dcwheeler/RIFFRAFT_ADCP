@@ -55,7 +55,7 @@ hold on
 % 
 % tdata=shaperead('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconte_20230922_terminus_wgs84.shp');
 % kmlwriteline('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconteterm_20230922.kml',tdata.Y,tdata.X)
-tdata=shaperead('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconte_20230923_terminus_wgs84.shp');
+tdata=shaperead('/Users/dwheel03/Desktop/GitHub/Tufts_Code/RIFFRAFT_ADCP/data/raw/terminusPosition/leconte_20230923_terminus_wgs84.shp');
 % kmlwriteline('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconteterm_20230923.kml',tdata.Y,tdata.X)
 
 plot(tdata.X,tdata.Y,'r-')
