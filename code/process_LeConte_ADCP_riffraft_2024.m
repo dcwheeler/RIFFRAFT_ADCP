@@ -8,13 +8,11 @@ function    process_LeConte_ADCP_riffraft_2024(deployment,topdir,topdir_proc)
 %velocities.
 
 
-
-
 disp(['Processing deployment: ' deployment])
 %topdir= 'C:\work\LeConte\Data\LeConte_2023';
-rawdir= fullfile(topdir,'\raw\RiffRaft',deployment,'ADCP');
+rawdir= fullfile(topdir,'raw/RiffRaft',deployment,'ADCP');
 %topdir_proc= 'C:\work\LeConte\Data\LeConte_2023';
-procdir= fullfile(topdir_proc,'\processed\RiffRaft',deployment,'ADCP');
+procdir= fullfile(topdir_proc,'processed/RiffRaft',deployment,'ADCP');
 
 
 
@@ -25,7 +23,7 @@ GPSflag=1;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 if GPSflag
     disp('Processing GPS files')
-    gpsoutfile=fullfile(topdir,'\processed\RiffRaft',deployment,'gps',[deployment '_gps']);
+    gpsoutfile=fullfile(topdir,'processed/RiffRaft',deployment,'gps',[deployment '_gps']);
     get_adcp_nav_data_vmdas_leconte_2024(rawdir,gpsoutfile)
 
     gdata=load(gpsoutfile);
