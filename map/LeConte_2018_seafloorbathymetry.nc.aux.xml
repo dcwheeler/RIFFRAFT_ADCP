@@ -1,0 +1,14 @@
+<PAMDataset>
+  <Subdataset name="z">
+    <PAMDataset>
+      <PAMRasterBand band="1">
+        <Metadata>
+          <MDI key="STATISTICS_MAXIMUM">248.94100952148</MDI>
+          <MDI key="STATISTICS_MEAN">-8586.9013101071</MDI>
+          <MDI key="STATISTICS_MINIMUM">-9999</MDI>
+          <MDI key="STATISTICS_STDDEV">3513.625969825</MDI>
+        </Metadata>
+      </PAMRasterBand>
+    </PAMDataset>
+  </Subdataset>
+</PAMDataset>
