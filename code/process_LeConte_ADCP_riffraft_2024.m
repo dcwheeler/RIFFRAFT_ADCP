@@ -113,152 +113,21 @@ for ifi=1:length(enxfiles)
     end
 end
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Plot processed files
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 disp('##############################')
 disp('Plotting ENX FILES')
-enxfiles=dir(fullfile(procdir,'*proc.mat'));
+enxfiles=dir(fullfile(procdir,'*.mat'));
 
 for ifi=1:length(enxfiles)
     disp('----------')
     enxfile=fullfile(enxfiles(ifi).folder,enxfiles(ifi).name);
     disp(['plotting: ' enxfile])
-    load(enxfile)
-    sc=0.005;
-
-    if contains(enxfile,'_150_')
-        figure(1)
-        %map=rb_cmp;
-        colormap("parula")
-        %colormap(map)
-        subplot(3,1,1)
-        pcolor(time,-bins,u);
-        shading flat
-        colorbar
-        hold on
-        plot(time,-depth)
-        hold off
-        caxis([-.75 .75])
-        title('East/West Velocity')
-        set(gca,'ylim',[ -250   0])
-        datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-        subplot(3,1,2)
-        pcolor(time,-bins,v);
-        shading flat
-        colorbar
-        hold on
-        plot(time,-depth)
-        hold off
-        caxis([-.75 .75])
-        title('North/South Velocity')
-        set(gca,'ylim',[ -250   0])
-        datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-
-        subplot(3,1,3)
-        pcolor(time,-bins,b);
-        shading flat
-        colorbar
-        hold on
-        plot(time,-depth)
-        hold off
-        title('Acoustic Backscatter')
-        set(gca,'ylim',[ -250   0])
-        datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-
-        fname=strrep(enxfile,'proc.mat','pc.png')
-
-        set(gcf,'paperposition',[0 0 11 8])
-        print(gcf,'-dpng','-r300',fname)
-        mu=nanmean(u(1:4,:));
-        mv=nanmean(v(1:4,:));
-        mu2=nanmean(u(6:8,:));
-        mv2=nanmean(v(6:8,:));
-        %
-
-        figure(2)
-        clf
-        LeConte_map
-        hold on
-        plot(lon,lat,'r-');
-        quiver(lon,lat,mu*sc,mv*sc,0,'k')
-      %  quiver(lon,lat,mu2*sc,mv2*sc,0,'g')
-        hold off
-
-        title('Surface (Black) and Mid depth (Green) Currents')
-        set(gca,'xlim',[-132.4069 -132.3354],'ylim',[ 56.8108   56.8466])
-
-        fname=strrep(enxfile,'proc.mat','map.png')
-        print(gcf,'-dpng','-r300',fname)
-    end
-
-    if contains(enxfile,'_600_')
-
-        figure(1)
-
-        %map=rb_cmp;
-        map = 'parula';
-        colormap(map)
-        subplot(3,1,1)
-        pcolor(time,-bins,u);
-        shading flat
-        colorbar
-        hold on
-        plot(time,-depth)
-        hold off
-        caxis([-.75 .75])
-        title('East/West Velocity')
-        datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-        subplot(3,1,2)
-        pcolor(time,-bins,v);
-        shading flat
-        colorbar
-        hold on
-        plot(time,-depth)
-        hold off
-        caxis([-.75 .75])
-        title('North/South Velocity')
-        datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-
-        subplot(3,1,3)
-        pcolor(time,-bins,b);
-        shading flat
-        colorbar
-        hold on
-        plot(time,-depth)
-        hold off
-
-        title('Acoustic Backscatter')
-        datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-
-        fname=strrep(enxfile,'proc.mat','pc.png')
-        set(gcf,'paperposition',[0 0 11 8])
-        print(gcf,'-dpng','-r400',fname)
-
-        mu=nanmean(u(6:18,:));
-        mv=nanmean(v(6:18,:));
-        mu2=nanmean(u(19:29,:));
-        mv2=nanmean(v(19:29,:));
-        %
-
-        figure(2)
-        clf
-        LeConte_map
-        hold on
-        plot(lon,lat,'r-');
-        quiver(lon,lat,mu*sc,mv*sc,0,'k')
-      %  quiver(lon,lat,mu2*sc,mv2*sc,0,'g')
-        hold off
-
-        title('Surface (Black) and Mid depth (Green) Currents')
-        set(gca,'xlim',[-132.4069 -132.3354],'ylim',[ 56.8108   56.8466])
-
-        fname=strrep(enxfile,'proc.mat','map.png')
-        print(gcf,'-dpng','-r400',fname)
-    end
-
+    plot_ADCP_data_LECONT(enxfile,true) %plot smoothed data
+    plot_ADCP_data_LECONT(enxfile,false) %plot raw data
+    
     pause(0.1)
 
 end

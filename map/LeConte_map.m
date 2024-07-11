@@ -55,10 +55,12 @@ hold on
 % 
 % tdata=shaperead('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconte_20230922_terminus_wgs84.shp');
 % kmlwriteline('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconteterm_20230922.kml',tdata.Y,tdata.X)
-tdata=shaperead('/Users/dwheel03/Desktop/GitHub/Tufts_Code/RIFFRAFT_ADCP/data/raw/terminusPosition/leconte_20230923_terminus_wgs84.shp');
+tdataNew = load('/Users/dwheel03/Library/CloudStorage/Box-Box/LeConte202407/data/raw/LeconteTermVert07102024.mat');
+tdataOld=shaperead('/Users/dwheel03/Desktop/GitHub/Tufts_Code/RIFFRAFT_ADCP/data/raw/terminusPosition/leconte_20230923_terminus_wgs84.shp');
 % kmlwriteline('C:\work\LeConte\Data\LeConte_2023\raw\terminusPosition\leconteterm_20230923.kml',tdata.Y,tdata.X)
 
-plot(tdata.X,tdata.Y,'r-')
+plot(tdataNew.lon,tdataNew.lat,'r-')
+plot(tdataOld.X,tdataOld.Y,'b-')
 % ;
 % pcolor(lon3,lat3,z3);
 %pcolor(lon2,lat2,z2);
@@ -67,3 +69,5 @@ hold off
 shading flat
 set(gca,'xlim',[-132.7 -132.3],'ylim',[56.7 56.9]);
 set(gca,'dataaspectratio',[1 cos(2*pi*56.8/360) 1])
+
+legend('new terminus','old terminus');

@@ -1,7 +1,7 @@
 function process_ADCP_data_LECONTE(infile,ofile,ang)
 
 clear global
-data=load(infile)
+data=load(infile);
 data=QAQC(data);
 
 
@@ -30,16 +30,12 @@ bdepth3=bdepth3*0.8;
 bdepth4=bdepth4*0.8;
 
 Ibad=find((bbin1>bdepth1) | (bbin2>bdepth2) | (bbin3>bdepth3) | (bbin4>bdepth4));
-data.data.data.VE(Ibad)=nan;
-data.data.data.VN(Ibad)=nan;
-data.data.data.ei1(Ibad)=nan;
-data.data.data.ei2(Ibad)=nan;
-data.data.data.ei3(Ibad)=nan;
-data.data.data.ei4(Ibad)=nan;
-
-
+data.data.VE(Ibad)=nan;
+data.data.VN(Ibad)=nan;
+data.data.ei1(Ibad)=nan;
+data.data.ei2(Ibad)=nan;
+data.data.ei3(Ibad)=nan;
 data.data.ei4(Ibad)=nan;
-
 
 C1=data.data.c1;
 C2=data.data.c2;
@@ -81,84 +77,6 @@ tEAA4=data.data.ei4;
 EAA=(EAA1+EAA2+EAA3+EAA4)./4;
 EAA(Ibad)=nan;
 
-% 
-% figure(31)
-% colormap(jet)
-% subplot(4,1,1)
-% pcolor(data.time,-bins,EAA1);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(4,1,2)
-% pcolor(data.time,-bins,EAA2);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(4,1,3)
-% pcolor(data.time,-bins,EAA3);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(4,1,4)
-% pcolor(data.time,-bins,EAA4);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% %
-% figure(32)
-% colormap(jet)
-% subplot(4,1,1)
-% pcolor(data.time,-bins,C1);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(4,1,2)
-% pcolor(data.time,-bins,C2);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(4,1,3)
-% pcolor(data.time,-bins,C3);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(4,1,4)
-% pcolor(data.time,-bins,C4);
-% shading flat
-% colorbar
-% hold on
-% plot(data.time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-
-%
-% btenu=btenu./1000;
-% bttime=data.time;
-% adcpheading=data.heading;
-%
-% save BT_DATA_ADCP_COMPASSCAL bttime btenu adcpheading
-
 tdepth=depth;
 u=[];
 v=[];
@@ -168,39 +86,9 @@ time=[];
 lon=[];
 lat=[];
 
-% % define the time interval for time average
-% dt=30/(60*60*24); % 30 sec interval
-% itime=min(data.time);
-% etime=max(data.time);
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % variables used for plotting are defined below
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% endflag=1;
-% while endflag
-%     It=find(data.time>itime & data.time<=itime+dt);
-% 
-%     if isempty(It)
-%         break
-%     end
-    % 
-    % 
-    % 
-    % u=[u nanmean(data.VE(:,It),2)]; % easthward flow velocity component
-    % v=[v nanmean(data.VN(:,It),2)]; % northward flow velocity component
-    % b=[b nanmean(EAA(:,It),2)]; % time averaged backscattering intensity
-    % time=[time nanmean(data.time(It))]; % time axis
-    % depth=[depth nanmean(tdepth(It))]; % bathymetry (depth of the seafloor or riverband)
-    % lon=[lon nanmean(navdata.llon(It))]; % longitude
-    % lat=[lat nanmean(navdata.llat(It))]; % latitude
-
-%     if max(It)+1 >= length(data.time)
-%         break
-%     end
-%     itime=data.time(max(It)+1);
-% end
-
-
 
 u=data.data.VE; % easthward flow velocity component
 v=data.data.VN; % northward flow velocity component
@@ -211,71 +99,27 @@ lon=data.navdata.llon; % longitude
 lat=data.navdata.llat; % latitude
 bins=data.bins;
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% make smoothed velocities
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+smoothTime = 60; %seconds
+
+dt = mean(diff(time))*24*60*60; %find sampling rate of adcp
+windowSize = floor(smoothTime/dt); %calculate window size, ensuring it is odd
+if mod(windowSize,2)==0
+    windowSize = windowSize + 1;
+end
+uAv = movmean(u,windowSize,2,'omitnan'); %do a simple running mean for now
+vAv = movmean(v,windowSize,2,'omitnan');
 
 
-
-% Ig=find(isfinite(depth) & depth<29);
-% depth=depth(Ig);
-% lat=lat(Ig);
-% lon=lon(Ig);
-% time=time(Ig);
-% u=u(:,Ig);
-% v=v(:,Ig);
-% b=b(:,Ig);
-% map=rb_cmp_v2;
-% figure(12)
-% colormap(map)
-% subplot(3,1,1)
-% pcolor(time,-bins,u);
-% shading flat
-% colorbar
-% hold on
-% plot(time,-depth)
-% hold off
-% caxis([-1 1])
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-% subplot(3,1,2)
-% pcolor(time,-bins,v);
-% shading flat
-% colorbar
-% hold on
-% plot(time,-depth)
-% hold off
-% caxis([-1 1])
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-
-% subplot(3,1,3)
-% pcolor(time,-bins,b);
-% shading flat
-% colorbar
-% hold on
-% plot(time,-depth)
-% hold off
-% datetick('x','mm/dd HH:MM','keepticks','keeplimits')
-%
-% % %
-% % % gdata=load('C:\work\delaware_plastic\survey_10_23_2019\Delwareplume_0\DELAWARE_PLASTICS_2019_10_24_adcpgps.mat')
-% mu=nanmean(u(1:2,:));
-% mv=nanmean(v(1:2,:));
-% mu2=nanmean(u(6:8,:));
-% mv2=nanmean(v(6:8,:));
-% %
-% %
-%  sc=0.02
-% figure(30)
-% LeConte_map
-% hold on
-% plot(gdata.lon,gdata.lat,'r.-',lon,lat,'b.-');
-%
-%
-%
-% % plot(tmplon,tmplat,'g-','linewidth',10);
-% quiver(lon,lat,mu*sc,mv*sc,0,'k')
-% quiver(lon,lat,mu2*sc,mv2*sc,0,'g')
-% %plot(tmplon,tmplat,'g+-');
-% hold off
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Rotate Velocities
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%tbd
 
 navdata=data.navdata;
 btdata=data.btdata;
-save(ofile,'lat','lon','depth','b','bins','time','u','v','navdata','btdata')
+save(ofile,'lat','lon','depth','b','bins','time','u','v','navdata','btdata','uAv','vAv')
 

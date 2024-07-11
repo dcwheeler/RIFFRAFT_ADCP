@@ -6,13 +6,16 @@ addpath /Users/dwheel03/Desktop/GitHub/Tufts_Code/RiffRaft_ADCP/map
 % topdir= 'C:\work\LeConte\Data\LeConte_2023';
 % topdir_proc= 'C:\work\LeConte\Data\LeConte_2023
 
-topdir = '/Users/dwheel03/Desktop/GitHub/Tufts_Code/RiffRaft_ADCP/data';
-topdir_proc = '/Users/dwheel03/Desktop/GitHub/Tufts_Code/RiffRaft_ADCP/data';
+topdir = '/Users/dwheel03/Library/CloudStorage/Box-Box/LeConte202407/data';
+topdir_proc = '/Users/dwheel03/Library/CloudStorage/Box-Box/LeConte202407/data';
+%topdir = '/Users/dwheel03/Desktop/GitHub/Tufts_Code/RiffRaft_ADCP/data';
+%topdir_proc = '/Users/dwheel03/Desktop/GitHub/Tufts_Code/RiffRaft_ADCP/data';
 %topdir= 'C:\work\LeConte\GIT\RIFFRAFT_ADCP\data';
 %topdir_proc= 'C:\work\LeConte\GIT\RIFFRAFT_ADCP\data';
-deployment{1}='deploy_20230920_1640';
 
-
+%deployment={'deploy_20240710_2100','deploy_20240711_1700'};
+deployment{1} = 'deploy_20240710_2100';
+%deployment{1} = 'deploy_20230920_1640';
 
 
 for idep=1:length(deployment)
